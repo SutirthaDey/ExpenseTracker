@@ -131,3 +131,5 @@ dist
 
 #database file
 util/d.js
+
+.vscode

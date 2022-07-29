@@ -13,7 +13,8 @@ try{
     }
 
     await axios.post('http://localhost:3000/signup', userData);
-    alert('Successfully Signed Up!')
+    alert('Successfully Signed Up!');
+    window.location.href = "http://localhost:3000/login.html";
     }
     catch(error)
     {

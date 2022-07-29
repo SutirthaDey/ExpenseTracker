@@ -9,17 +9,20 @@ async function logIn(e){
             password: e.target.password.value
         }
 
-        console.log(userData);
-        alert('Successfully Logged In!')
+        const response = await axios.post('http://localhost:3000/login', userData);
+        localStorage.setItem('token',response.data.token);
+        localStorage.setItem('email',response.data.email);
+        alert('Successfully Logged In!');
+        window.location.href="http://localhost:3000/expense/expense.html";
         }
         catch(error)
-        {
-            userDoesNotExists();
+        {   const message = error.response.data.message;
+            userDoesNotExists(message);
         }      
 }
 
-function userDoesNotExists(){
-    alert('User does not exists!');
+function userDoesNotExists(message){
+    alert(message);
 }
 
 loginForm.addEventListener('submit', logIn);

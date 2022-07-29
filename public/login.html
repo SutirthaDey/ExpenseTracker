@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Signup</title>
+    <title>Login</title>
     <link rel="stylesheet" href="../style.css">
 </head>
 <body>
@@ -12,19 +12,15 @@
     <header>
         <h1>Expense Tracker</h1>
     </header>
-  <form class="signup-form" method="POST">
-        <input type="text" name="name" placeholder="name" required/>
-        <br>
+  <form class="login-form" method="POST">
         <input type="email" name="email" placeholder="email" required/>
-        <br>
-        <input type="number" name="phone" placeholder="phone number" required/>
         <br>
         <input type="password" name="password" placeholder="password" required/>
         <br>
-        <input type="submit" value="Sign Up"/>
+        <input type="submit" value="Log In"/>
   </form>
-  <a href="../login/login.html" class="to-login-page">Already an user?</a>
+  <a href="signup.html" class="to-signup-page">New user? Create an account</a>
   <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
-  <script src="../signup.js"></script>
+  <script src="login.js"></script>
 </body>
 </html>

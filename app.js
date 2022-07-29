@@ -9,10 +9,10 @@ const path = require('path');
 const app = express();
 app.use(bodyParser.json());
 app.use(cors());
-app.use(express.static(path.join(__dirname, '/public')));
+app.use(express.static(path.join(__dirname, 'public')));
 
 app.get('/',(req,res,next)=>{
-    res.sendFile(path.join(__dirname,'public','/login/login.html'));
+    res.sendFile(path.join(__dirname,'public','login.html'));
 })
 
 app.use(signupRoute);

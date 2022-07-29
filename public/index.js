@@ -13,10 +13,11 @@ try{
     }
 
     await axios.post('http://localhost:3000/signup', userData);
+    alert('Successfully Signed Up!')
     }
     catch(error)
     {
-        userDoesExists()
+        userDoesExists();
     }    
 }
 

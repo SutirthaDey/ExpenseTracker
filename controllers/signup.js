@@ -6,15 +6,12 @@ const saltRounds = 12;
 
 exports.postSignUp = async(req,res,next)=>{
     const userData = req.body;
-    console.log(userData);
 
-    const users = await User.findAll({
-        where: {
-            [Op.or]: [{ email: userData.email }, { phoneNumber: userData.phone }]
-        }
+    const ExistingUser = await User.findOne({
+        where: { email: userData.email}
     });
 
-    if(users[0]){
+    if(ExistingUser){
         res.status(400).json({status: 'Already exists!'});
         return;
     }
@@ -27,5 +24,5 @@ exports.postSignUp = async(req,res,next)=>{
         phoneNumber: userData.phone
     })
 
-    res.status(200).json({users})
+    res.status(200).json({success:true})
 };

@@ -32,4 +32,5 @@ function userDoesExists(){
         errorPopUp.remove();
     }, 5000);
 }
-signUpForm.addEventListener('submit', signUp)
+
+signUpForm.addEventListener('submit', signUp);

@@ -12,11 +12,10 @@ exports.createOrder = async(req,res,next)=>{
  
  try{
  const order = await razorpayInstance.orders.create({amount,current,receipt});
- console.log(order);
  res.json(order);
  }
  catch(e)
  {
-    res.json(e);
+    res.status(400).json(e);
  }
 }

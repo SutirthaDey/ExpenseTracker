@@ -5,12 +5,16 @@ const expenseRoute = require('./routes/expense');
 const cors = require('cors');
 const sequelize = require('./utils/database');
 const User = require('./models/user');
+const Expense = require('./models/expense');
 const path = require('path');
 
 const app = express();
 app.use(bodyParser.json());
 app.use(cors());
 app.use(express.static(path.join(__dirname, 'public')));
+
+User.hasMany(Expense);
+Expense.belongsTo(User);
 
 app.get('/',(req,res,next)=>{
     res.sendFile(path.join(__dirname,'public','login.html'));

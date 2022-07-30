@@ -42,7 +42,7 @@ exports.postLogIn = async (req,res,next)=>{
         if(!isPasswordMatched){
          throw new Error('Wrong password!');
         }
-        const jwtToken = createToken(user.email);
+        const jwtToken = createToken(user.id);
         res.status(200).json({token: jwtToken, email: user.email, success: true});
     }
     catch(e){

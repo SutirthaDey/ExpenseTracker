@@ -12,7 +12,7 @@ payButton.addEventListener('click',async(e)=>{
         receipt: "rcp123"
     }
 
-    const order = await axios.post('http://localhost:3000/payment',paymentDetails);
+    const order = await axios.get('http://localhost:3000/payment', {headers: {'Authorization': token}});
     console.log(order);
     var options =
     {
@@ -32,14 +32,14 @@ payButton.addEventListener('click',async(e)=>{
     //  This handler function will handle the success payment
      "handler": function (response) {
          console.log(response);
-        //  axios.post('http://localhost:3000/purchase/updatepayment',{
-        //      order_id: options.order_id,
-        //      payment_id: response.razorpay_payment_id,
-        //  }, { headers: {"Authorization" : token} }).then(() => {
-        //      alert('You are a Premium User Now')
-        //  }).catch(() => {
-        //      alert('Something went wrong. Try Again!!!')
-        //  })
+         axios.post('http://localhost:3000/payment/verify',{
+             orderId: options.order_id,
+             paymentId: response.razorpay_payment_id,
+         }, { headers: {"Authorization" : token} }).then(() => {
+             alert('You are a Premium User Now')
+         }).catch(() => {
+             alert('Something went wrong. Try Again!!!')
+         })
      },
   };
         const rzp1 = new Razorpay(options);

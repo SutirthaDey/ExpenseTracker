@@ -25,7 +25,8 @@ exports.postSignUp = async(req,res,next)=>{
         name: userData.name,
         email: userData.email,
         password: hashedPassword,
-        phoneNumber: userData.phone
+        phoneNumber: userData.phone,
+        isPremium: false
     })
     res.status(200).json({success:true})
 };

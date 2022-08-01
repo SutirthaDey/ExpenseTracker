@@ -8,6 +8,7 @@ const cors = require('cors');
 const sequelize = require('./utils/database');
 const User = require('./models/user');
 const Expense = require('./models/expense');
+const Order = require('./models/order');
 const path = require('path');
 const Razorpay = require('razorpay');
 
@@ -19,6 +20,9 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 User.hasMany(Expense);
 Expense.belongsTo(User);
+
+User.hasMany(Order);
+Order.belongsTo(User);
 
 app.get('/',(req,res,next)=>{
     res.sendFile(path.join(__dirname,'public','login.html'));

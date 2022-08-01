@@ -36,7 +36,8 @@ payButton.addEventListener('click',async(e)=>{
              orderId: options.order_id,
              paymentId: response.razorpay_payment_id,
          }, { headers: {"Authorization" : token} }).then(() => {
-             alert('You are a Premium User Now')
+             alert('You are a Premium User Now');
+             document.body.classList.add('dark-mode');
          }).catch(() => {
              alert('Something went wrong. Try Again!!!')
          })
@@ -70,11 +71,15 @@ expenseForm.addEventListener('submit',(e)=>{
     console.log(e.target.category.value);
 })
 
-window.addEventListener('load', async()=>{
+window.addEventListener('DOMContentLoaded', domContentLoad);
+
+async function domContentLoad(){
     try{
         const response = await axios.get('http://localhost:3000/expense', {headers: {'Authorization': token}});
+        if(response.data.isPremium)
+        document.body.classList.add('dark-mode'); 
     }catch(e){
         window.location.href = "http://localhost:3000";
         console.log(e);
     }
-})
+}

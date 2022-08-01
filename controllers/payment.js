@@ -12,7 +12,7 @@ exports.createOrder = async(req,res,next)=>{
  
  try{
  const order = await razorpayInstance.orders.create({amount,current,receipt});
- res.json(order);
+ res.json({order,key:process.env.RAZORPAY_ID});
  }
  catch(e)
  {

@@ -14,13 +14,53 @@ payButton.addEventListener('click',async(e)=>{
 
     const order = await axios.post('http://localhost:3000/payment',paymentDetails);
     console.log(order);
-    }
-    catch(error)
+    var options =
     {
-        console.log(error);
+     "amount": paymentDetails.amount,
+     "current": paymentDetails.currency,
+     "key": order.data.key_id, // Enter the Key ID generated from the Dashboard
+     "name": "Buy Premium",
+     "order_id": order.data.order.id, // For one time payment
+     "prefill": {
+       "name": "Sutirtha Dey",
+       "email": "deysutirtha1997@gmail.com",
+       "contact": "95934157XX"
+     },
+     "theme": {
+      "color": "#3399cc"
+     },
+    //  This handler function will handle the success payment
+     "handler": function (response) {
+         console.log(response);
+        //  axios.post('http://localhost:3000/purchase/updatepayment',{
+        //      order_id: options.order_id,
+        //      payment_id: response.razorpay_payment_id,
+        //  }, { headers: {"Authorization" : token} }).then(() => {
+        //      alert('You are a Premium User Now')
+        //  }).catch(() => {
+        //      alert('Something went wrong. Try Again!!!')
+        //  })
+     },
+  };
+        const rzp1 = new Razorpay(options);
+        rzp1.open();
+        e.preventDefault();
+
+        rzp1.on('payment.failed', function (response){
+        alert(response.error.code);
+        alert(response.error.description);
+        alert(response.error.source);
+        alert(response.error.step);
+        alert(response.error.reason);
+        alert(response.error.metadata.order_id);
+        alert(response.error.metadata.payment_id);
+        });
+    }
+    catch(e)
+    {
+        console.log(e);
     }
 });
-
 
 expenseForm.addEventListener('submit',(e)=>{
     e.preventDefault();

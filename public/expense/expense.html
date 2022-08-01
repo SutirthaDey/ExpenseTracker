@@ -7,13 +7,13 @@
     <link rel="stylesheet" href="../style.css">
     <title>Expense</title>
 </head>
-<body>
+<body class="dark-mode">
     <nav></nav>
     <header>
         <h1>ADD EXPENSE</h1>
     </header>
   <form class="expense-form" method="POST">
-        <input type="number" name="amount" placeholder="Amout of Expendature" required/>
+        <input type="number" name="amount" placeholder="Amount of Expendature" required/>
         <br>
         <input type="text" name="description" placeholder="Description" required/>
         <br>
@@ -26,11 +26,11 @@
         <br>
         <input type="submit" value="Add Expense"/>
   </form>
-  <span> Cost:- 499 Rupees 
+
     <button id="pay-button" >
-        Pay Now & Get Access
+        Get Premium Membership
     </button> 
-</span>
+
   <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
   <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
   <script src="../expense.js"></script>

@@ -4,6 +4,7 @@ const bodyParser = require('body-parser');
 const signupRoute = require('./routes/signup');
 const expenseRoute = require('./routes/expense');
 const paymentRoute = require('./routes/payment');
+const passwordRoute = require('./routes/password');
 const cors = require('cors');
 const sequelize = require('./utils/database');
 const User = require('./models/user');
@@ -31,6 +32,7 @@ app.get('/',(req,res,next)=>{
 app.use(signupRoute);
 app.use('/expense', expenseRoute);
 app.use('/payment', paymentRoute);
+app.use('/password',passwordRoute);
 
 async function runServer(){
     await sequelize.sync();

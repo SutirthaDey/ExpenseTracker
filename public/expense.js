@@ -76,8 +76,11 @@ window.addEventListener('DOMContentLoaded', domContentLoad);
 async function domContentLoad(){
     try{
         const response = await axios.get('http://localhost:3000/expense', {headers: {'Authorization': token}});
-        if(response.data.isPremium)
-        document.body.classList.add('dark-mode'); 
+        if(response.data.isPremium){
+          document.body.classList.add('dark-mode');
+          payButton.innerText = 'Premium Subscription is Active';
+          payButton.disabled = true;
+        }
     }catch(e){
         window.location.href = "http://localhost:3000";
         console.log(e);

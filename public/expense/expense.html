@@ -12,11 +12,11 @@
     <header>
         <h1>EXPENSE  TRACKER</h1>
     </header>
-    <span>
+    <!-- <span>
       <button id="add-income-btn" >Add Income</button>
       <button id="add-expense-btn">Add Expense</button>
-    </span>
-  <form class="expense-form" method="POST">
+    </span> -->
+  <form class="expense-form" onsubmit="addNewExpense(event)">
         <input type="number" name="expense" placeholder="Amount of Expendature" required/>
         <br>
         <input type="text" name="description" placeholder="Description" required/>
@@ -30,17 +30,23 @@
         <br>
         <input type="submit" value="Add Expense"/>
   </form>
-  <form class="income-form" method="POST">
+  <!-- <form class="income-form" method="POST">
     <input type="number" name="income" placeholder="Income" required/>
     <br>
     <input type="text" name="description" placeholder="Description" required/>
     <br>
     <input type="submit" value="Add Income"/>
-</form>
+</form> -->
 
     <button id="pay-button">
         Get Premium Membership
     </button> 
+
+    <div id="expenseDiv">
+      <ul id='listOfExpenses'></ul>
+    </div>
+
+    <button onclick="download()" id="downloadexpense">Download All Expense</button>
 
   <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
   <script src="https://checkout.razorpay.com/v1/checkout.js"></script>

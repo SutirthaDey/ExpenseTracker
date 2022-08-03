@@ -4,6 +4,31 @@ const payButton = document.getElementById('pay-button');
 const selectChoice = document.querySelector('span');
 const token = localStorage.getItem('token');
 
+function addNewExpense(e){
+    e.preventDefault();
+    const form = new FormData(e.target);
+
+    const expenseDetails = {
+        expenseamount: form.get("expense"),
+        description: form.get("description"),
+        category: form.get("category")
+
+    }
+    console.log(expenseDetails)
+    addNewExpensetoUI(expenseDetails);
+}
+
+function addNewExpensetoUI(expense){
+    const parentElement = document.getElementById('listOfExpenses');
+    const expenseElemId = `expense-${expense.id}`;
+    parentElement.innerHTML += `
+        <li id=${expenseElemId}>
+            ${expense.expenseamount} - ${expense.category} - ${expense.description}
+            <button onclick='deleteExpense(event, ${expense.id})'>
+                Delete Expense
+            </button>
+        </li>`
+}
 
 payButton.addEventListener('click',async(e)=>{
 
@@ -68,17 +93,17 @@ expenseForm.addEventListener('submit',(e)=>{
     e.preventDefault();
 })
 
-selectChoice.addEventListener('click',(e)=>{
-    if(e.target.id === 'add-income-btn'){
-        expenseForm.style.display = 'none';
-        incomeForm.style.display = 'block';
-    }
-    else if(e.target.id === 'add-expense-btn'){
-        incomeForm.style.display = 'none';
-        expenseForm.style.display = 'block';
-        expenseForm.lastElementChild.style.background = 'red';
-    }
-})
+// selectChoice.addEventListener('click',(e)=>{
+//     if(e.target.id === 'add-income-btn'){
+//         expenseForm.style.display = 'none';
+//         incomeForm.style.display = 'block';
+//     }
+//     else if(e.target.id === 'add-expense-btn'){
+//         incomeForm.style.display = 'none';
+//         expenseForm.style.display = 'block';
+//         expenseForm.lastElementChild.style.background = 'red';
+//     }
+// })
 
 window.addEventListener('DOMContentLoaded', domContentLoad);
 

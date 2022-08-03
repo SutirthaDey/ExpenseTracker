@@ -34,12 +34,6 @@ nav{
     text-align: center;
 }
 
-.expense-form,
-.income-form{
-    display: none;
-}
-
-
 .forgot-popup.active{
     display: flex;
 }
@@ -167,6 +161,30 @@ nav{
 }
 #add-expense-btn:hover{
     background-color: rgb(177, 43, 43);
+}
+
+#downloadexpense{
+    position: absolute;
+    top: 20%;
+    right: 1%;
+    background: rgb(1, 138, 1);
+    color: white;
+    width: 150px;
+    padding: 5px;
+    border: 1px solid rgb(238, 255, 0);
+}
+
+#downloadexpense:hover{
+    background: rgb(0, 104, 0);
+}
+
+#expenseDiv{
+    height: 400px;
+    width: 700px;
+    background-color: aquamarine;
+    border: 1px solid black;
+    overflow: scroll;
+    text-align: center;
 }
 
 .dark-mode{

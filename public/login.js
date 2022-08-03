@@ -40,6 +40,10 @@ forgotPopUp.addEventListener('submit', async(e)=>{
     const email = e.target.email.value;
     const response = await axios.post('http://localhost:3000/password/forgotpassword', {email:email});
     console.log(response);
+    const resetLink = document.querySelector('.forgot-password a');
+    resetLink.href = response.data.resetLink;
+    console.log(response.data.resetLink);
+    resetLink.innerText = 'click here to reset password';
     }
     catch(e){
         console.log(e);

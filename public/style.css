@@ -28,10 +28,17 @@ nav{
 .signup-form, 
 .login-form, 
 .expense-form,
-.forgot-password{
+.forgot-password,
+.income-form{
     margin-top: 20px;
     text-align: center;
 }
+
+.expense-form,
+.income-form{
+    display: none;
+}
+
 
 .forgot-popup.active{
     display: flex;
@@ -77,6 +84,7 @@ nav{
 .login-form input, 
 .expense-form input, 
 .expense-form select,
+.income-form input,
 .forgot-password input {
     margin: 10px;
     height: 2rem;
@@ -88,6 +96,7 @@ nav{
 .signup-form input:nth-last-child(1), 
 .login-form input:nth-last-child(1),
 .expense-form input:nth-last-child(1),
+.income-form input:nth-last-child(1),
 .forgot-password input:nth-last-child(1) {
     width: 250px;
     border-radius: 5px;
@@ -99,6 +108,7 @@ nav{
 .signup-form input:nth-last-child(1):hover, 
 .login-form input:nth-last-child(1):hover,
 .expense-form input:nth-last-child(1):hover,
+.income-form input:nth-last-child(1):hover,
 .forgot-password input:nth-last-child(1)
 {
     background-color: rgb(0, 0, 207);
@@ -135,6 +145,28 @@ nav{
 
 #pay-button:hover{
     background-color: rgb(182, 71, 67);
+}
+
+#add-income-btn,
+#add-expense-btn{
+    padding: 10px;
+    width: 150px;
+    margin: 0 10px;
+    border-radius: 10px;
+    border: none;
+    background-color: rgb(113, 179, 15);
+    color: white;
+}
+
+#add-expense-btn{
+    background-color: red;
+}
+
+#add-income-btn:hover{
+    background-color: green;
+}
+#add-expense-btn:hover{
+    background-color: rgb(177, 43, 43);
 }
 
 .dark-mode{

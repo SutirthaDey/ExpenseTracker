@@ -13,8 +13,6 @@ exports.createOrders = async(req,res,next)=>{
  const currency = "INR";
  const receipt = 'rcp1';
 
- console.log('####',amount);
-
  try{
  const order = await razorpayInstance.orders.create({amount,currency,receipt});
  await req.user.createOrder({orderId: order.id, status: 'Pending'});

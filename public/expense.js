@@ -1,5 +1,7 @@
 const expenseForm =  document.querySelector('.expense-form');
+const incomeForm = document.querySelector('.income-form');
 const payButton = document.getElementById('pay-button');
+const selectChoice = document.querySelector('span');
 const token = localStorage.getItem('token');
 
 
@@ -13,7 +15,7 @@ payButton.addEventListener('click',async(e)=>{
     }
 
     const order = await axios.get('http://localhost:3000/payment', {headers: {'Authorization': token}});
-    console.log(order);
+
     var options =
     {
      "amount": paymentDetails.amount,
@@ -31,7 +33,6 @@ payButton.addEventListener('click',async(e)=>{
      },
     //  This handler function will handle the success payment
      "handler": function (response) {
-         console.log(response);
          axios.post('http://localhost:3000/payment/verify',{
              orderId: options.order_id,
              paymentId: response.razorpay_payment_id,
@@ -65,10 +66,18 @@ payButton.addEventListener('click',async(e)=>{
 
 expenseForm.addEventListener('submit',(e)=>{
     e.preventDefault();
+})
 
-    console.log(e.target.amount.value);
-    console.log(e.target.description.value);
-    console.log(e.target.category.value);
+selectChoice.addEventListener('click',(e)=>{
+    if(e.target.id === 'add-income-btn'){
+        expenseForm.style.display = 'none';
+        incomeForm.style.display = 'block';
+    }
+    else if(e.target.id === 'add-expense-btn'){
+        incomeForm.style.display = 'none';
+        expenseForm.style.display = 'block';
+        expenseForm.lastElementChild.style.background = 'red';
+    }
 })
 
 window.addEventListener('DOMContentLoaded', domContentLoad);

@@ -7,5 +7,3 @@ router.post('/signup', signupController.postSignUp);
 router.post('/login', signupController.postLogIn)
 
 module.exports = router;
-
-console.log('Hi')

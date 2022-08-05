@@ -104,10 +104,24 @@ expenseForm.addEventListener('submit',(e)=>{
 //         expenseForm.lastElementChild.style.background = 'red';
 //     }
 // })
-
 window.addEventListener('DOMContentLoaded', domContentLoad);
 
 async function domContentLoad(){
+    const calendar = document.getElementById('calendar');
+    let dateObj = new Date();
+    let month = dateObj.getUTCMonth() + 1;
+    let day = dateObj.getUTCDate();
+    let year = dateObj.getUTCFullYear();
+
+    if(day<10)
+    day = '0'+day;
+
+    if(month<10)
+    month = '0'+month;
+
+    newdate = year + "-" + month + "-" + day;
+    calendar.value = newdate;
+
     try{
         const response = await axios.get('http://localhost:3000/expense', {headers: {'Authorization': token}});
         if(response.data.isPremium){

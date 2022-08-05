@@ -10,7 +10,9 @@ body {
     align-items: center;
     justify-content: center;
     font-family: "Poppins", sans-serif;
-    min-height: 100vh;
+    min-width: 100vw;
+    position: absolute;
+    margin: 0;
 }
 
 header{
@@ -21,7 +23,7 @@ nav{
     height: 50px;
     width: 100%;
     background-color: blue;
-    position: fixed;
+    position: relative;
     top: 0;
 }
 
@@ -181,10 +183,12 @@ nav{
 #expenseDiv{
     height: 400px;
     width: 700px;
-    background-color: aquamarine;
+    background-color: rgb(89, 102, 98);
     border: 1px solid black;
-    overflow: scroll;
+    overflow: hidden;
     text-align: center;
+    margin: 20px;
+    border-radius: 5px;
 }
 
 .dark-mode{

@@ -4,18 +4,45 @@ const payButton = document.getElementById('pay-button');
 const selectChoice = document.querySelector('span');
 const token = localStorage.getItem('token');
 
-function addNewExpense(e){
+function today(){
+    let dateObj = new Date();
+    let month = dateObj.getUTCMonth() + 1;
+    let day = dateObj.getUTCDate();
+    let year = dateObj.getUTCFullYear();
+
+    if(day<10)
+    day = '0'+day;
+
+    if(month<10)
+    month = '0'+month;
+
+    newdate = year + "-" + month + "-" + day;
+    return newdate;
+}
+
+async function addNewExpense(e){
+
+    try{
     e.preventDefault();
     const form = new FormData(e.target);
 
     const expenseDetails = {
         expenseamount: form.get("expense"),
         description: form.get("description"),
-        category: form.get("category")
-
+        category: form.get("category"),
+        date: form.get("date")
     }
     console.log(expenseDetails)
-    addNewExpensetoUI(expenseDetails);
+    await axios.post('http://localhost:3000/expense/addExpense',expenseDetails,{ headers: {"Authorization" : token} });
+
+    if(today() === expenseDetails.date)
+        addNewExpensetoUI(expenseDetails);
+    }
+
+    catch(e)
+    {
+        console.log(e);
+    }
 }
 
 function addNewExpensetoUI(expense){
@@ -23,7 +50,7 @@ function addNewExpensetoUI(expense){
     const expenseElemId = `expense-${expense.id}`;
     parentElement.innerHTML += `
         <li id=${expenseElemId}>
-            ${expense.expenseamount} - ${expense.category} - ${expense.description}
+            ${expense.expenseamount} - ${expense.category} - ${expense.description} - ${expense.date}
             <button onclick='deleteExpense(event, ${expense.id})'>
                 Delete Expense
             </button>
@@ -108,19 +135,7 @@ window.addEventListener('DOMContentLoaded', domContentLoad);
 
 async function domContentLoad(){
     const calendar = document.getElementById('calendar');
-    let dateObj = new Date();
-    let month = dateObj.getUTCMonth() + 1;
-    let day = dateObj.getUTCDate();
-    let year = dateObj.getUTCFullYear();
-
-    if(day<10)
-    day = '0'+day;
-
-    if(month<10)
-    month = '0'+month;
-
-    newdate = year + "-" + month + "-" + day;
-    calendar.value = newdate;
+    calendar.value = today();
 
     try{
         const response = await axios.get('http://localhost:3000/expense', {headers: {'Authorization': token}});

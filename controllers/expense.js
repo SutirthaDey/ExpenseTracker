@@ -1,10 +1,19 @@
 const Expense = require('../models/expense');
 const User = require('../models/user');
+const Sequelize = require('sequelize');
+const Op = Sequelize.Op;
 
 exports.getExpense = async(req,res,next)=>{
     const date = req.query.date;
-    console.log(date)
-    const expenseList = await req.user.getExpenses({where: {date: date}});
+    console.log(date);
+    const expenseList = await req.user.getExpenses(
+        {
+            where: 
+            { date: 
+                {[Op.substring]: date}
+            }       
+        }
+    );
     res.json({success: true, isPremium: req.user.isPremium, expenseList});
 }
 

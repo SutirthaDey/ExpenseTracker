@@ -3,7 +3,9 @@ const incomeForm = document.querySelector('.income-form');
 const payButton = document.getElementById('pay-button');
 const selectChoice = document.querySelector('span');
 const token = localStorage.getItem('token');
-const calendar = document.getElementById('calendar');
+const dateCalendar = document.getElementById('date-calendar');
+const monthCalendar = document.getElementById('month-calendar');
+const yearCalendar = document.getElementById('year-calendar');
 
 function today(){
     let dateObj = new Date();
@@ -33,13 +35,20 @@ async function addNewExpense(e){
         category: form.get("category"),
         date: form.get("date")
     }
-    console.log(expenseDetails.amount)
+
     await axios.post('http://localhost:3000/expense/addExpense',expenseDetails,{ headers: {"Authorization" : token} });
 
-    if( calendar.value === expenseDetails.date)
+    if(expenseDetails.date === dateCalendar.value){
         addNewExpensetoUI(expenseDetails);
     }
-
+    if(dateCalendar.value === '' && yearCalendar.value === '' && expenseDetails.date.startsWith(monthCalendar.value)){
+        addNewExpensetoUI(expenseDetails);
+    }
+    if(dateCalendar.value === '' && monthCalendar.value === '' && expenseDetails.date.startsWith(yearCalendar.value))
+        addNewExpensetoUI(expenseDetails);
+    
+    console.log(1);
+    }
     catch(e)
     {
         console.log(e);
@@ -62,6 +71,44 @@ async function getExpenseByDate(e){
     try{
     e.preventDefault();
     const date = e.target.date.value;
+    monthCalendar.value = '';
+    yearCalendar.value = '';
+    const parentElement = document.getElementById('listOfExpenses');
+    const response = await axios.get(`http://localhost:3000/expense?date=${date}`,{ headers: {"Authorization" : token} });
+    const expenseList  = response.data.expenseList;
+    parentElement.innerHTML = "";
+    expenseList.forEach((expense)=> addNewExpensetoUI(expense));
+    }
+    catch(e)
+    {
+        console.log(e);
+    }
+}
+
+async function getExpenseByMonth(e){
+    try{
+    e.preventDefault();
+    const date = e.target.month.value;
+    dateCalendar.value = '';
+    yearCalendar.value = '';
+    const parentElement = document.getElementById('listOfExpenses');
+    const response = await axios.get(`http://localhost:3000/expense?date=${date}`,{ headers: {"Authorization" : token} });
+    const expenseList  = response.data.expenseList;
+    parentElement.innerHTML = "";
+    expenseList.forEach((expense)=> addNewExpensetoUI(expense));
+    }
+    catch(e)
+    {
+        console.log(e);
+    }
+}
+
+async function getExpenseByYear(e){
+    try{
+    e.preventDefault();
+    const date = e.target.year.value;
+    monthCalendar.value = '';
+    dateCalendar.value = '';
     const parentElement = document.getElementById('listOfExpenses');
     const response = await axios.get(`http://localhost:3000/expense?date=${date}`,{ headers: {"Authorization" : token} });
     const expenseList  = response.data.expenseList;
@@ -137,26 +184,14 @@ expenseForm.addEventListener('submit',(e)=>{
     e.preventDefault();
 })
 
-// selectChoice.addEventListener('click',(e)=>{
-//     if(e.target.id === 'add-income-btn'){
-//         expenseForm.style.display = 'none';
-//         incomeForm.style.display = 'block';
-//     }
-//     else if(e.target.id === 'add-expense-btn'){
-//         incomeForm.style.display = 'none';
-//         expenseForm.style.display = 'block';
-//         expenseForm.lastElementChild.style.background = 'red';
-//     }
-// })
 window.addEventListener('DOMContentLoaded', domContentLoad);
 
 async function domContentLoad(){
-    calendar.value = today();
+    dateCalendar.value = today();
 
     try{
         const response = await axios.get(`http://localhost:3000/expense?date=${today()}`, {headers: {'Authorization': token}});
         const expenseList = response.data.expenseList;
-        console.log(expenseList);
         expenseList.forEach((expense)=> addNewExpensetoUI(expense));
         if(response.data.isPremium){
           document.body.classList.add('dark-mode');

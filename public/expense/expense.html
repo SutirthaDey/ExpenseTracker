@@ -12,10 +12,6 @@
     <header>
         <h1>EXPENSE  TRACKER</h1>
     </header>
-    <!-- <span>
-      <button id="add-income-btn" >Add Income</button>
-      <button id="add-expense-btn">Add Expense</button>
-    </span> -->
   <form class="expense-form" onsubmit="addNewExpense(event)">
         <input type="number" name="expense" placeholder="Amount of Expendature" required/>
         <br>
@@ -45,11 +41,21 @@
     </button> 
 
     <div id="expenseDiv">
-      <div style="background-color: rgb(37, 37, 36);">
+      <div style="background-color: rgb(37, 37, 36); height: 90px;">
         <form onsubmit="getExpenseByDate(event)">
-          <label for="calender" style="color:white">choose a date</label>
-          <input type="date" name="date" id="calendar"/>
-          <input type="submit" value="Check expense" style="border: 1px solid black";/>
+          <label for="calender" style="color:white">Choose a date</label>
+          <input type="date" name="date" id="date-calendar"/>
+          <input type="submit" value="Check daily expense" style="border: 1px solid black";/>
+        </form>
+        <form onsubmit="getExpenseByMonth(event)">
+          <label for="calender" style="color:white">Choose a month</label>
+          <input type="month" name="month" min="2010-01" id="month-calendar" max="2024-12"/>
+          <input type="submit" value="Check monthly expense" style="border: 1px solid black";/>
+        </form>
+        <form onsubmit="getExpenseByYear(event)">
+          <label for="calender" style="color:white">Choose a year</label>
+          <input type="number" id="year-calendar" min="2010" max="2024" name="year" step="1" />
+          <input type="submit" value="Check yearly expense" style="border: 1px solid black";/>
         </form>
       </div>
       <ul id='listOfExpenses'></ul>

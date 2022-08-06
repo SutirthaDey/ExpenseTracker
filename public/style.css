@@ -185,7 +185,7 @@ nav{
     width: 700px;
     background-color: rgb(89, 102, 98);
     border: 1px solid black;
-    overflow: hidden;
+    overflow: scroll;
     text-align: center;
     margin: 20px;
     border-radius: 5px;

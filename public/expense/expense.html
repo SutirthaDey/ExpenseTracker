@@ -45,9 +45,12 @@
     </button> 
 
     <div id="expenseDiv">
-      <div style="background-color: rgb(120, 182, 7);">
-        <label for="calender">choose a date</label>
-        <input type="date" id="calendar"/>
+      <div style="background-color: rgb(37, 37, 36);">
+        <form onsubmit="getExpenseByDate(event)">
+          <label for="calender" style="color:white">choose a date</label>
+          <input type="date" name="date" id="calendar"/>
+          <input type="submit" value="Check expense" style="border: 1px solid black";/>
+        </form>
       </div>
       <ul id='listOfExpenses'></ul>
     </div>

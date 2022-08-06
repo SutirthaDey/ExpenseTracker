@@ -3,6 +3,7 @@ const incomeForm = document.querySelector('.income-form');
 const payButton = document.getElementById('pay-button');
 const selectChoice = document.querySelector('span');
 const token = localStorage.getItem('token');
+const calendar = document.getElementById('calendar');
 
 function today(){
     let dateObj = new Date();
@@ -27,15 +28,15 @@ async function addNewExpense(e){
     const form = new FormData(e.target);
 
     const expenseDetails = {
-        expenseamount: form.get("expense"),
+        amount: form.get("expense"),
         description: form.get("description"),
         category: form.get("category"),
         date: form.get("date")
     }
-    console.log(expenseDetails)
+    console.log(expenseDetails.amount)
     await axios.post('http://localhost:3000/expense/addExpense',expenseDetails,{ headers: {"Authorization" : token} });
 
-    if(today() === expenseDetails.date)
+    if( calendar.value === expenseDetails.date)
         addNewExpensetoUI(expenseDetails);
     }
 
@@ -50,11 +51,27 @@ function addNewExpensetoUI(expense){
     const expenseElemId = `expense-${expense.id}`;
     parentElement.innerHTML += `
         <li id=${expenseElemId}>
-            ${expense.expenseamount} - ${expense.category} - ${expense.description} - ${expense.date}
+            ${expense.amount} - ${expense.category} - ${expense.description} - ${expense.date}
             <button onclick='deleteExpense(event, ${expense.id})'>
                 Delete Expense
             </button>
         </li>`
+}
+
+async function getExpenseByDate(e){
+    try{
+    e.preventDefault();
+    const date = e.target.date.value;
+    const parentElement = document.getElementById('listOfExpenses');
+    const response = await axios.get(`http://localhost:3000/expense?date=${date}`,{ headers: {"Authorization" : token} });
+    const expenseList  = response.data.expenseList;
+    parentElement.innerHTML = "";
+    expenseList.forEach((expense)=> addNewExpensetoUI(expense));
+    }
+    catch(e)
+    {
+        console.log(e);
+    }
 }
 
 payButton.addEventListener('click',async(e)=>{
@@ -134,11 +151,13 @@ expenseForm.addEventListener('submit',(e)=>{
 window.addEventListener('DOMContentLoaded', domContentLoad);
 
 async function domContentLoad(){
-    const calendar = document.getElementById('calendar');
     calendar.value = today();
 
     try{
-        const response = await axios.get('http://localhost:3000/expense', {headers: {'Authorization': token}});
+        const response = await axios.get(`http://localhost:3000/expense?date=${today()}`, {headers: {'Authorization': token}});
+        const expenseList = response.data.expenseList;
+        console.log(expenseList);
+        expenseList.forEach((expense)=> addNewExpensetoUI(expense));
         if(response.data.isPremium){
           document.body.classList.add('dark-mode');
           payButton.innerText = 'Premium Subscription is Active';

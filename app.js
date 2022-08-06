@@ -35,7 +35,7 @@ app.get('/',(req,res,next)=>{
 })
 
 app.use(signupRoute);
-app.use('/expense', expenseRoute);
+app.use(expenseRoute);
 app.use('/payment', paymentRoute);
 app.use('/password',passwordRoute);
 

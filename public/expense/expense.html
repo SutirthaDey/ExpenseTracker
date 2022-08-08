@@ -58,7 +58,21 @@
           <input type="submit" value="Check yearly expense" style="border: 1px solid black";/>
         </form>
       </div>
-      <ul id='listOfExpenses'></ul>
+      <table>
+        <thead>
+          <tr>
+            <th>Amount of expense</th>
+            <th>Description</th>
+            <th>Category</th>
+            <th>Date</th>
+          </tr>
+        </thead>
+        <tbody id="listOfExpenses">
+        </tbody>
+      </table>
+      <div>
+        <span><b>Total Expense: </b><span id="totalExpense"><b>0</b></span></span>
+      </div>
     </div>
 
     <button onclick="download()" id="downloadexpense">Download All Expense</button>

@@ -211,3 +211,25 @@ nav{
 .dark-mode header h1{
     color: white;
 }
+
+table {
+    font-family: arial, sans-serif;
+    border-collapse: collapse;
+    width: 100%;
+  }
+  
+  td, th {
+    border: 1px solid #dddddd;
+    text-align: left;
+    padding: 8px;
+    color: rgb(0, 0, 0);
+  }
+  
+  tr:nth-child(even) {
+    background-color: #f1d3d3;
+  }
+
+  #totalExpense{
+    color:rgb(196, 0, 0);
+    height: 30px;
+  }

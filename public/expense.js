@@ -6,6 +6,9 @@ const token = localStorage.getItem('token');
 const dateCalendar = document.getElementById('date-calendar');
 const monthCalendar = document.getElementById('month-calendar');
 const yearCalendar = document.getElementById('year-calendar');
+const totalExpenseSpan = document.getElementById('totalExpense');
+
+let totalExpense = 0;
 
 function today(){
     let dateObj = new Date();
@@ -58,13 +61,15 @@ async function addNewExpense(e){
 function addNewExpensetoUI(expense){
     const parentElement = document.getElementById('listOfExpenses');
     const expenseElemId = `expense-${expense.id}`;
+    totalExpense = totalExpense + +expense.amount;
+
     parentElement.innerHTML += `
-        <li id=${expenseElemId}>
-            ${expense.amount} - ${expense.category} - ${expense.description} - ${expense.date}
-            <button onclick='deleteExpense(event, ${expense.id})'>
-                Delete Expense
-            </button>
-        </li>`
+    <tr id=${expenseElemId}>
+        <td style="color:rgb(196,0,0)">${expense.amount} </td>
+        <td>${expense.category}</td>
+        <td>${expense.description}</td>
+        <td>${expense.date}</td>
+    </tr>`
 }
 
 async function getExpenseByDate(e){
@@ -77,7 +82,9 @@ async function getExpenseByDate(e){
     const response = await axios.get(`http://localhost:3000/expense?date=${date}`,{ headers: {"Authorization" : token} });
     const expenseList  = response.data.expenseList;
     parentElement.innerHTML = "";
+    totalExpense = 0;
     expenseList.forEach((expense)=> addNewExpensetoUI(expense));
+    totalExpenseSpan.innerHTML = `<b>${totalExpense}</b>`;
     }
     catch(e)
     {
@@ -95,7 +102,9 @@ async function getExpenseByMonth(e){
     const response = await axios.get(`http://localhost:3000/expense?date=${date}`,{ headers: {"Authorization" : token} });
     const expenseList  = response.data.expenseList;
     parentElement.innerHTML = "";
+    totalExpense = 0;
     expenseList.forEach((expense)=> addNewExpensetoUI(expense));
+    totalExpenseSpan.innerHTML = `<b>${totalExpense}</b>`;
     }
     catch(e)
     {
@@ -113,7 +122,9 @@ async function getExpenseByYear(e){
     const response = await axios.get(`http://localhost:3000/expense?date=${date}`,{ headers: {"Authorization" : token} });
     const expenseList  = response.data.expenseList;
     parentElement.innerHTML = "";
+    totalExpense = 0;
     expenseList.forEach((expense)=> addNewExpensetoUI(expense));
+    totalExpenseSpan.innerHTML = `<b>${totalExpense}</b>`;
     }
     catch(e)
     {
@@ -192,7 +203,9 @@ async function domContentLoad(){
     try{
         const response = await axios.get(`http://localhost:3000/expense?date=${today()}`, {headers: {'Authorization': token}});
         const expenseList = response.data.expenseList;
+        totalExpense = 0;
         expenseList.forEach((expense)=> addNewExpensetoUI(expense));
+        totalExpenseSpan.innerHTML = `<b>${totalExpense}</b>`;
         if(response.data.isPremium){
           document.body.classList.add('dark-mode');
           payButton.innerText = 'Premium Subscription is Active';

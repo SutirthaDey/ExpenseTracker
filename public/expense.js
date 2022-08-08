@@ -7,8 +7,98 @@ const dateCalendar = document.getElementById('date-calendar');
 const monthCalendar = document.getElementById('month-calendar');
 const yearCalendar = document.getElementById('year-calendar');
 const totalExpenseSpan = document.getElementById('totalExpense');
+const pages = document.getElementById('pages');
+const listOfExpenses = document.getElementById('listOfExpenses');
 
 let totalExpense = 0;
+
+function showPageButtons(currentPage,lastPage,totalItems){
+    pages.innerHTML = '';
+
+    try{
+    const hasNextPage = (currentPage < lastPage)? true: false;
+    const firstPageButton = document.createElement('button');
+    firstPageButton.setAttribute('type','button');
+    const currentPageButton = document.createElement('button');
+    currentPageButton.setAttribute('type','button');
+    const lastPageButton = document.createElement('button');
+    lastPageButton.setAttribute('type','button');
+  
+    firstPageButton.innerText = '1';
+    lastPageButton.innerText = `${lastPage}`;
+    currentPageButton.innerText = `${currentPage}`;
+    firstPageButton.classList.add('pageItems');
+    lastPageButton.classList.add('pageItems');
+    currentPageButton.classList.add('pageItems');
+    currentPageButton.classList.add('active');
+  
+    if(currentPage === 1){
+    firstPageButton.classList.add('active');
+    }
+  
+    pages.appendChild(firstPageButton);
+  
+    if(totalItems<=1) return;
+  
+    if(currentPage > 2)
+    {
+      const previousPageButton = document.createElement('button');
+      previousPageButton.setAttribute('type','button');
+      previousPageButton.innerText = currentPage - 1;
+      previousPageButton.classList.add('pageItems');
+      pages.appendChild(previousPageButton);
+    }
+  
+    if(currentPage!=1 && currentPage!=lastPage){
+      pages.appendChild(currentPageButton);
+    }
+  
+    if(hasNextPage && currentPage+1 != lastPage){
+      const nextPageButton = document.createElement('button');
+      nextPageButton.setAttribute('type','button');
+      nextPageButton.innerText = currentPage + 1;
+      nextPageButton.classList.add('pageItems');
+      pages.appendChild(nextPageButton);
+    }
+    
+    if(currentPage == lastPage){
+    lastPageButton.classList.add('active');
+    }
+  
+    if(lastPage !== 1){
+    lastPageButton.setAttribute('type','button');
+    pages.appendChild(lastPageButton);
+    }
+   }
+   catch(e){
+    console.log(e);
+   }
+}
+
+async function showPage(e){
+
+    try{
+    
+    if(e.target.className !== 'pageItems')
+     return;
+
+    const targetPage = +e.target.innerText;
+    console.log(targetPage);
+    const date = yearCalendar.value || monthCalendar.value || dateCalendar.value;
+    const response = await axios.get(`http://localhost:3000/expense?date=${date}&page=${targetPage}`, {headers: {'Authorization': token}});
+    const expenseList = response.data.expenseList;
+    const totalPages = response.data.totalPages;
+    const totalItems = response.data.totalItems;
+    totalExpense = 0;
+    listOfExpenses.innerHTML = '';
+    expenseList.forEach((expense)=> addNewExpensetoUI(expense));
+    showPageButtons(targetPage,totalPages,totalItems);
+    totalExpenseSpan.innerHTML = `<b>${totalExpense}</b>`;
+    }
+    catch(e){
+        console.log(e);
+    }
+}
 
 function today(){
     let dateObj = new Date();
@@ -49,8 +139,6 @@ async function addNewExpense(e){
     }
     if(dateCalendar.value === '' && monthCalendar.value === '' && expenseDetails.date.startsWith(yearCalendar.value))
         addNewExpensetoUI(expenseDetails);
-    
-    console.log(1);
     }
     catch(e)
     {
@@ -59,11 +147,10 @@ async function addNewExpense(e){
 }
 
 function addNewExpensetoUI(expense){
-    const parentElement = document.getElementById('listOfExpenses');
     const expenseElemId = `expense-${expense.id}`;
     totalExpense = totalExpense + +expense.amount;
 
-    parentElement.innerHTML += `
+    listOfExpenses.innerHTML += `
     <tr id=${expenseElemId}>
         <td style="color:rgb(196,0,0)">${expense.amount} </td>
         <td>${expense.category}</td>
@@ -78,13 +165,15 @@ async function getExpenseByDate(e){
     const date = e.target.date.value;
     monthCalendar.value = '';
     yearCalendar.value = '';
-    const parentElement = document.getElementById('listOfExpenses');
     const response = await axios.get(`http://localhost:3000/expense?date=${date}`,{ headers: {"Authorization" : token} });
     const expenseList  = response.data.expenseList;
-    parentElement.innerHTML = "";
+    const totalPages = response.data.totalPages;
+    const totalItems = response.data.totalItems;
+    listOfExpenses.innerHTML = "";
     totalExpense = 0;
     expenseList.forEach((expense)=> addNewExpensetoUI(expense));
     totalExpenseSpan.innerHTML = `<b>${totalExpense}</b>`;
+    showPageButtons(1,totalPages,totalItems);
     }
     catch(e)
     {
@@ -98,13 +187,15 @@ async function getExpenseByMonth(e){
     const date = e.target.month.value;
     dateCalendar.value = '';
     yearCalendar.value = '';
-    const parentElement = document.getElementById('listOfExpenses');
     const response = await axios.get(`http://localhost:3000/expense?date=${date}`,{ headers: {"Authorization" : token} });
     const expenseList  = response.data.expenseList;
-    parentElement.innerHTML = "";
+    const totalPages = response.data.totalPages;
+    const totalItems = response.data.totalItems;
+    listOfExpenses.innerHTML = "";
     totalExpense = 0;
     expenseList.forEach((expense)=> addNewExpensetoUI(expense));
     totalExpenseSpan.innerHTML = `<b>${totalExpense}</b>`;
+    showPageButtons(1,totalPages,totalItems);
     }
     catch(e)
     {
@@ -118,13 +209,15 @@ async function getExpenseByYear(e){
     const date = e.target.year.value;
     monthCalendar.value = '';
     dateCalendar.value = '';
-    const parentElement = document.getElementById('listOfExpenses');
     const response = await axios.get(`http://localhost:3000/expense?date=${date}`,{ headers: {"Authorization" : token} });
     const expenseList  = response.data.expenseList;
-    parentElement.innerHTML = "";
+    const totalPages = response.data.totalPages;
+    const totalItems = response.data.totalItems;
+    listOfExpenses.innerHTML = '';
     totalExpense = 0;
     expenseList.forEach((expense)=> addNewExpensetoUI(expense));
     totalExpenseSpan.innerHTML = `<b>${totalExpense}</b>`;
+    showPageButtons(1,totalPages,totalItems);
     }
     catch(e)
     {
@@ -193,7 +286,9 @@ payButton.addEventListener('click',async(e)=>{
 
 expenseForm.addEventListener('submit',(e)=>{
     e.preventDefault();
-})
+});
+
+pages.addEventListener('click', showPage);
 
 window.addEventListener('DOMContentLoaded', domContentLoad);
 
@@ -203,6 +298,8 @@ async function domContentLoad(){
     try{
         const response = await axios.get(`http://localhost:3000/expense?date=${today()}`, {headers: {'Authorization': token}});
         const expenseList = response.data.expenseList;
+        const totalPages = response.data.totalPages;
+        const totalItems = response.data.totalItems;
         totalExpense = 0;
         expenseList.forEach((expense)=> addNewExpensetoUI(expense));
         totalExpenseSpan.innerHTML = `<b>${totalExpense}</b>`;
@@ -211,6 +308,7 @@ async function domContentLoad(){
           payButton.innerText = 'Premium Subscription is Active';
           payButton.disabled = true;
         }
+        showPageButtons(1,totalPages,totalItems);
     }catch(e){
         window.location.href = "http://localhost:3000";
         console.log(e);

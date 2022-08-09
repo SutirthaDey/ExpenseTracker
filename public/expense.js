@@ -139,6 +139,8 @@ async function addNewExpense(e){
     }
     if(dateCalendar.value === '' && monthCalendar.value === '' && expenseDetails.date.startsWith(yearCalendar.value))
         addNewExpensetoUI(expenseDetails);
+        
+    totalExpenseSpan.innerHTML = `<b>${totalExpense}</b>`;
     }
     catch(e)
     {

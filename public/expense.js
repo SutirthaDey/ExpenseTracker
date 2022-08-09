@@ -259,6 +259,8 @@ payButton.addEventListener('click',async(e)=>{
          }, { headers: {"Authorization" : token} }).then(() => {
              alert('You are a Premium User Now');
              document.body.classList.add('dark-mode');
+             payButton.innerText = 'Premium Subscription is Active';
+             payButton.disabled = true;
          }).catch(() => {
              alert('Something went wrong. Try Again!!!')
          })

@@ -12,11 +12,11 @@ async function logIn(e){
             password: e.target.password.value
         }
 
-        const response = await axios.post('http://localhost:3000/login', userData);
+        const response = await axios.post('http://18.237.99.237:3000/login', userData);
         localStorage.setItem('token',response.data.token);
         localStorage.setItem('email',response.data.email);
         alert('Successfully Logged In!');
-        window.location.href="http://localhost:3000/expense/expense.html";
+        window.location.href="http://18.237.99.237:3000/expense/expense.html";
         }
         catch(error)
         {   const message = error.response.data.message;
@@ -38,7 +38,7 @@ forgotPopUp.addEventListener('submit', async(e)=>{
     try{
     e.preventDefault();
     const email = e.target.email.value;
-    const response = await axios.post('http://localhost:3000/password/forgotpassword', {email:email});
+    const response = await axios.post('http://18.237.99.237:3000/password/forgotpassword', {email:email});
     const resetLink = document.querySelector('.forgot-password a');
     resetLink.href = response.data.resetLink;
     resetLink.innerText = 'click here to reset password';

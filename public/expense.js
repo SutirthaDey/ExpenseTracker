@@ -85,7 +85,7 @@ async function showPage(e){
     const targetPage = +e.target.innerText;
     console.log(targetPage);
     const date = yearCalendar.value || monthCalendar.value || dateCalendar.value;
-    const response = await axios.get(`http://localhost:3000/expense?date=${date}&page=${targetPage}`, {headers: {'Authorization': token}});
+    const response = await axios.get(`http://18.237.99.237:3000/expense?date=${date}&page=${targetPage}`, {headers: {'Authorization': token}});
     const expenseList = response.data.expenseList;
     const totalPages = response.data.totalPages;
     const totalItems = response.data.totalItems;
@@ -129,7 +129,7 @@ async function addNewExpense(e){
         date: form.get("date")
     }
 
-    await axios.post('http://localhost:3000/expense/addExpense',expenseDetails,{ headers: {"Authorization" : token} });
+    await axios.post('http://18.237.99.237:3000/expense/addExpense',expenseDetails,{ headers: {"Authorization" : token} });
 
     if(expenseDetails.date === dateCalendar.value){
         addNewExpensetoUI(expenseDetails);
@@ -165,7 +165,7 @@ async function getExpenseByDate(e){
     const date = e.target.date.value;
     monthCalendar.value = '';
     yearCalendar.value = '';
-    const response = await axios.get(`http://localhost:3000/expense?date=${date}`,{ headers: {"Authorization" : token} });
+    const response = await axios.get(`http://18.237.99.237:3000/expense?date=${date}`,{ headers: {"Authorization" : token} });
     const expenseList  = response.data.expenseList;
     const totalPages = response.data.totalPages;
     const totalItems = response.data.totalItems;
@@ -187,7 +187,7 @@ async function getExpenseByMonth(e){
     const date = e.target.month.value;
     dateCalendar.value = '';
     yearCalendar.value = '';
-    const response = await axios.get(`http://localhost:3000/expense?date=${date}`,{ headers: {"Authorization" : token} });
+    const response = await axios.get(`http://18.237.99.237:3000/expense?date=${date}`,{ headers: {"Authorization" : token} });
     const expenseList  = response.data.expenseList;
     const totalPages = response.data.totalPages;
     const totalItems = response.data.totalItems;
@@ -209,7 +209,7 @@ async function getExpenseByYear(e){
     const date = e.target.year.value;
     monthCalendar.value = '';
     dateCalendar.value = '';
-    const response = await axios.get(`http://localhost:3000/expense?date=${date}`,{ headers: {"Authorization" : token} });
+    const response = await axios.get(`http://18.237.99.237:3000/expense?date=${date}`,{ headers: {"Authorization" : token} });
     const expenseList  = response.data.expenseList;
     const totalPages = response.data.totalPages;
     const totalItems = response.data.totalItems;
@@ -234,7 +234,7 @@ payButton.addEventListener('click',async(e)=>{
         receipt: "rcp123"
     }
 
-    const order = await axios.get('http://localhost:3000/payment', {headers: {'Authorization': token}});
+    const order = await axios.get('http://18.237.99.237:3000/payment', {headers: {'Authorization': token}});
 
     var options =
     {
@@ -253,7 +253,7 @@ payButton.addEventListener('click',async(e)=>{
      },
     //  This handler function will handle the success payment
      "handler": function (response) {
-         axios.post('http://localhost:3000/payment/verify',{
+         axios.post('http://18.237.99.237:3000/payment/verify',{
              orderId: options.order_id,
              paymentId: response.razorpay_payment_id,
          }, { headers: {"Authorization" : token} }).then(() => {
@@ -296,7 +296,7 @@ async function domContentLoad(){
     dateCalendar.value = today();
 
     try{
-        const response = await axios.get(`http://localhost:3000/expense?date=${today()}`, {headers: {'Authorization': token}});
+        const response = await axios.get(`http://18.237.99.237:3000/expense?date=${today()}`, {headers: {'Authorization': token}});
         const expenseList = response.data.expenseList;
         const totalPages = response.data.totalPages;
         const totalItems = response.data.totalItems;
@@ -310,7 +310,7 @@ async function domContentLoad(){
         }
         showPageButtons(1,totalPages,totalItems);
     }catch(e){
-        window.location.href = "http://localhost:3000";
+        window.location.href = "http://18.237.99.237:3000";
         console.log(e);
     }
 }

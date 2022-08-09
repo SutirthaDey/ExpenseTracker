@@ -10,7 +10,7 @@ exports.postForgotPassword = async(req,res,next)=>{
     const user = await User.findOne({where: {email: email}});
     const response = await ForgotPassword.create({active: true})
     await response.setUser(user);
-    const resetLink = `http://localhost:3000/password/resetpassword/${response.id}?userid=${user.id}`;
+    const resetLink = `http://18.237.99.237:3000/password/resetpassword/${response.id}?userid=${user.id}`;
     res.status(200).json({resetLink});
     }
     catch(e)

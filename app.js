@@ -41,7 +41,7 @@ app.use('/password',passwordRoute);
 
 async function runServer(){
     await sequelize.sync();
-    app.listen(3000);
+    app.listen(process.env.PORT || 3000);
 }
 
 runServer();

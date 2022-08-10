@@ -31,7 +31,6 @@ User.hasMany(ForgotPassword);
 ForgotPassword.belongsTo(User);
 
 app.get('/',(req,res,next)=>{
-    console.log("Welcome to ExpenseTracker");
     res.sendFile(path.join(__dirname,'public','login.html'));
 })
 

@@ -77,7 +77,21 @@
       </div>
     </div>
 
-    <button onclick="download()" id="downloadexpense">Download All Expense</button>
+    <!-- <button onclick="download()" id="downloadexpense">Download All Expense</button> -->
+    <div id="leaderboard">
+      <h3>Leaderboard</h3>
+      <table>
+        <thead>
+          <tr>
+            <th>Rank</th>
+            <th>Name</th>
+            <th>Total Expense</th>
+          </tr>
+        </thead>
+        <tbody id="leaderboardlist">
+        </tbody>
+      </table>
+    </div>
 
   <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
   <script src="https://checkout.razorpay.com/v1/checkout.js"></script>

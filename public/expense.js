@@ -9,7 +9,8 @@ const yearCalendar = document.getElementById('year-calendar');
 const totalExpenseSpan = document.getElementById('totalExpense');
 const pages = document.getElementById('pages');
 const listOfExpenses = document.getElementById('listOfExpenses');
-
+const leaderboardDiv = document.getElementById('leaderboard');
+const leaderboardList = document.getElementById('leaderboardlist')
 let totalExpense = 0;
 
 function showPageButtons(currentPage,lastPage,totalItems){
@@ -73,6 +74,23 @@ function showPageButtons(currentPage,lastPage,totalItems){
    catch(e){
     console.log(e);
    }
+}
+
+async function showLeaderBoard(){
+    const response = await axios.get('http://18.237.99.237:3000/getleaderboard',{headers: {'Authorization': token}});
+    const leaderboard = response.data.totalExpense;
+    leaderboardList.innerHTML='';
+
+    leaderboard.sort((a,b)=> +a.total_amount < +b.total_amount ? 1:-1);
+
+    leaderboard.forEach((eachUser,index)=>{
+        leaderboardList.innerHTML += `
+        <tr>
+            <td style="color:rgb(196,0,0)">${index+1}</td>
+            <td>${eachUser.user.name}</td>
+            <td>${eachUser.total_amount}</td>
+        </tr>`
+    })
 }
 
 async function showPage(e){
@@ -159,6 +177,7 @@ function addNewExpensetoUI(expense){
         <td>${expense.description}</td>
         <td>${expense.date}</td>
     </tr>`
+    showLeaderBoard();
 }
 
 async function getExpenseByDate(e){
@@ -311,6 +330,8 @@ async function domContentLoad(){
           document.body.classList.add('dark-mode');
           payButton.innerText = 'Premium Subscription is Active';
           payButton.disabled = true;
+          leaderboardDiv.style.display = 'block';
+          showLeaderBoard();
         }
         showPageButtons(1,totalPages,totalItems);
     }catch(e){

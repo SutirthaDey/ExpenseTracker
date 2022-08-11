@@ -33,7 +33,7 @@ exports.getExpense = async(req,res,next)=>{
 
 exports.postExpense = async(req,res,next)=>{
     const {amount,description,category,date} = req.body;
-    console.log(amount,description,category,date);
+
     await req.user.createExpense({
         amount:+amount,
         description:description,
@@ -41,4 +41,19 @@ exports.postExpense = async(req,res,next)=>{
         date:date
     })
     res.json({success: true})
+}
+
+exports.getLeaderBoard = async(req,res,next)=>{
+    const totalExpense = await Expense.findAll({
+        include: [
+            {model: User, attributes: ['name']}
+          ],
+        attributes: [
+          'userId',
+          [Sequelize.fn('sum', Sequelize.col('amount')), 'total_amount'],
+        ],
+        group: ['userId'],
+        limit: 10
+      });
+    res.json({totalExpense});
 }

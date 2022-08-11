@@ -165,15 +165,17 @@ nav{
     background-color: rgb(177, 43, 43);
 }
 
-#downloadexpense{
+#leaderboard{
     position: absolute;
     top: 20%;
-    right: 1%;
+    right: 5%;
     background: rgb(1, 138, 1);
     color: white;
-    width: 150px;
+    width: 250px;
     padding: 5px;
     border: 1px solid rgb(238, 255, 0);
+    text-align: center;
+    display: none;
 }
 
 #downloadexpense:hover{
